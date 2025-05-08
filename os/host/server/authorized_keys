@@ -1,0 +1,37 @@
+#! /usr/bin/env bash
+declare cache="/tmp/authorized_keys"
+mkdir -p "$cache"
+
+set -euo pipefail
+
+shopt -s extglob
+
+# Check length.
+if [[ ${#1} -gt 256 ]]
+then
+	exit 1
+fi
+
+# Check symbols.
+if ! [[ "$1" =~ [a-zA-Z0-9.]* ]]
+then
+	exit 2
+fi
+
+declare cache="$cache/$1"
+
+if [ -f "$cache" ] && [ $(( $(date +%s) - $(date -r "$cache" +%s) )) -lt 3000 ]
+then
+	cat "$cache"
+	exit 0
+fi
+
+declare -a providers=("github.com" "gitlab.com" "codeberg.org")
+
+for provider in "${providers[@]}"
+do
+	if [[ "$1" =~ .*.$provider ]]
+	then
+		curl --silent "https://$provider/${1%".$provider"}.keys" | tee "$cache"
+	fi
+done

@@ -1,0 +1,11 @@
+seys:
+  - &lorenz     age1c0g6s6daxy79dlm9uqczwlkh0hvjpghw5h8zzljc3vs275rvvqus30hv9l
+  - &garnix     age1wn7yjpj8eespc6l6a7qe3ea0xrfvy9gyvkelgvc90xm9q43zfq4qwszrdv
+  - &server     age1wtw0sex792w8vyrrk5hdg07xdrnpa3nh9t80xn2k4hjdajlpepmqjrqm2y
+creation_rules:
+  - path_regex: os/host/server/sops/[^/]+\.(bin|json|yaml)$
+    key_groups:
+    - age:
+      - *lorenz
+      - *server
+      - *garnix

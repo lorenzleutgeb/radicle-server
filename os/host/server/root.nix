@@ -1,0 +1,8 @@
+{
+  users.users.root = {
+    password = "root";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFhK7CqgIIbSthoNn8ea32krOnMzC807Z+PpBkR2YOVj"
+    ];
+  };
+}
