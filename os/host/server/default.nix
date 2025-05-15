@@ -13,6 +13,7 @@
     ./root.nix
     ./tor.nix
     ./ssh.nix
+    ./home.nix
   ];
 
   garnix.server = {

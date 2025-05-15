@@ -10,7 +10,22 @@
     shell = pkgs.dash;
     group = "authorized_keys";
   };
+
   users.groups."authorized_keys" = {};
+
+  security.pam.services.sshd.rules.account.exec = {
+    enable = true;
+    modulePath = "${config.security.pam.package}/lib/security/pam_exec.so";
+    order = config.security.pam.services.sshd.rules.account.systemd_home.order + 10;
+    control = "sufficient";
+    settings = {
+      debug = null;
+      log = "/tmp/pam_exec.log";
+      stdout = null;
+      type = "account";
+    };
+    args = ["/usr/bin/env"];
+  };
 
   services = {
     openssh = {
@@ -42,6 +57,7 @@
             text = builtins.readFile ./authorized_keys;
           }))
           + " %u";
+        PasswordAuthentication = false;
       };
 
       hostKeys = [

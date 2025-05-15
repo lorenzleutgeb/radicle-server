@@ -1,0 +1,3 @@
+{
+  services.homed.enable = true;
+}
